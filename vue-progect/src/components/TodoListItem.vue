@@ -2,9 +2,9 @@
     <li class="task-item">
         <span class="task-item-text">{{ todo.title }}</span>
         <SvgCheckedBacket 
-        :todo="todo"
-        @taskCompleted="taskCompleted"
-        @removeTodo="removeTodo"
+            :todo="todo"
+            @toggleTaskCompletion="toggleTaskCompletion"
+            @removeTodo="removeTodo"
         />
     </li>
 </template>
@@ -19,17 +19,17 @@ defineProps({
     }
 })
 
-const emit = defineEmits(['taskCompleted', 'removeTodo'])
+const emit = defineEmits(['toggleTaskCompletion', 'removeTodo'])
 
-const taskCompleted = (todo) => {
-    emit('taskCompleted', todo)
+const toggleTaskCompletion = (todo) => {
+    emit('toggleTaskCompletion', todo)
 }
 const removeTodo = (todo) => {
     emit('removeTodo', todo)
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .task-item {
         padding: 28px 20px;
         background-color: #15101C;

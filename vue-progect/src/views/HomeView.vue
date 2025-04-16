@@ -1,31 +1,32 @@
 <template>
     <section class="todo">
-        <form @submit.prevent="addTodo" class="todo-add">
-            <input v-model="newTodo" required type="text" placeholder="Add a new task" class="todo-add-input">
-            <SvgPlus />
-        </form>
+        <FormAddTodo 
+            v-model="newTodo"
+            @addTodo="addTodo"
+        />
         <TodoList
+            class="tasks"
             title="Tasks to do"
-            :count="countTodos"
             text="There are no tasks"
+            :count="countTodos"
             :tasksList="tasksToDo"
+            @toggleTaskCompletion="toggleTaskCompletion"
             @removeTodo="removeTodo"
-            @taskCompleted="taskCompleted"
         />
         <TodoList 
             class="tasks-done"
             title="Done"
-            :count="countDoneTodos"
             text="There are no completed tasks"
+            :count="countDoneTodos"
             :tasksList="tasksDone"
-            @taskCompleted="taskCompleted"
+            @toggleTaskCompletion="toggleTaskCompletion"
             @removeTodo="removeTodo"
         />
     </section>
 </template>
 
 <script setup>
-import SvgPlus from '@/components/SvgPlus.vue'
+import FormAddTodo from '@/components/FormAddTodo.vue'
 import TodoList from '@/components/TodoList.vue'
 import { ref, computed } from 'vue'
 
@@ -90,7 +91,7 @@ const tasksDone = computed(() => {
     return todos.value.filter(todo => todo.completed)
 })
 
-function taskCompleted(todo) {
+function toggleTaskCompletion(todo) {
     const index = todos.value.findIndex(t => t.id === todo.id)
     todos.value[index].completed = !todos.value[index].completed
 }
@@ -103,31 +104,5 @@ const countDoneTodos = computed(() => tasksDone.value.length)
 .todo {
     max-width: 432px;
     padding: 50px 0;
-
-    &-add {
-        display: flex;
-        gap: 12px;
-
-        &-input {
-            padding: 12px 16px 10px;
-            background-color: transparent;
-            border: 2px solid #3e1671;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 16px;
-            font-family: Inter, sans-serif;
-            max-width: 380px;
-            width: 100%;
-            transition: all .3s;
-
-            &::placeholder {
-                color: #777;
-            }
-
-            &:focus {
-                box-shadow: 4px 4px 10px 0px #f8f8f8;
-            }
-        }
-    }
 }
 </style>
