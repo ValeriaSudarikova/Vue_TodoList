@@ -5,7 +5,7 @@
             <TodoListItem 
             v-for="todo in tasksList" :key="todo.id"
             :todo="todo"
-            @taskCompleted="taskCompleted"
+            @toggleTaskCompletion="toggleTaskCompletion"
             @removeTodo="removeTodo"/>
         </transition-group>
         <transition name="tasks-list">
@@ -36,17 +36,17 @@ defineProps ({
     }
 })
 
-const emit = defineEmits(['taskCompleted', 'removeTodo'])
+const emit = defineEmits(['toggleTaskCompletion', 'removeTodo'])
 
-const taskCompleted = (todo) => {
-    emit('taskCompleted', todo)
+const toggleTaskCompletion = (todo) => {
+    emit('toggleTaskCompletion', todo)
 }
 const removeTodo = (todo) => {
     emit('removeTodo', todo)
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .tasks {
         margin: 60px 0;
 
