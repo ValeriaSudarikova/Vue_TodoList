@@ -5,18 +5,18 @@
             @addTodo="addTodo"
         />
         <TodoList
-            class="tasks"
             title="Tasks to do"
             text="There are no tasks"
+            class="tasks"
             :count="countTodos"
             :tasksList="tasksToDo"
             @toggleTaskCompletion="toggleTaskCompletion"
             @removeTodo="removeTodo"
         />
         <TodoList 
-            class="tasks-done"
             title="Done"
             text="There are no completed tasks"
+            class="tasks-done"
             :count="countDoneTodos"
             :tasksList="tasksDone"
             @toggleTaskCompletion="toggleTaskCompletion"
@@ -92,8 +92,7 @@ const tasksDone = computed(() => {
 })
 
 function toggleTaskCompletion(todo) {
-    const index = todos.value.findIndex(t => t.id === todo.id)
-    todos.value[index].completed = !todos.value[index].completed
+    todo.completed = !todo.completed
 }
 
 const countTodos = computed(() => tasksToDo.value.length)
