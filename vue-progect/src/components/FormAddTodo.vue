@@ -7,18 +7,17 @@
     </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import SvgPlus from '@/components/SvgPlus.vue';
 
-const newTodo = defineModel({
-    type: String,
-    required: true,
-})
+const newTodo = defineModel<string>()
 
-const emit = defineEmits(['addTodo'])
+const emit = defineEmits<{
+    (e: 'addTodo'): void
+}>()
 
-const addTodo = (newTodo) => {
-    emit('addTodo', newTodo)
+const addTodo = () => {
+    emit('addTodo')
 }
 </script>
 

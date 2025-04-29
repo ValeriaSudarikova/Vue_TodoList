@@ -1,6 +1,9 @@
 <template>
     <div class="tasks">
         <h4 class="tasks-heading">{{ title }} - {{ count }}</h4>
+        <transition name="tasks-list">
+            <p v-if="error" class="tasks-message"> {{ error }} </p>
+        </transition>
         <transition-group name="tasks-list" tag="ul" class="tasks-list">
             <TodoListItem 
             v-for="todo in tasksList" :key="todo.id"
@@ -9,39 +12,34 @@
             @removeTodo="removeTodo"/>
         </transition-group>
         <transition name="tasks-list">
-            <p v-if="count === 0" class="tasks-message">{{ text }}</p>
+            <p v-if="count === 0 && !error" class="tasks-message">{{ text }}</p>
         </transition>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TodoListItem from '@/components/TodoListItem.vue'
+import { TodoItem } from "@/store/TodoStore"
 
-defineProps ({
-    title: {
-        type: String,
-        required: true,
-    },
-    count: {
-        type: Number,
-        required: true,
-    },
-    tasksList: {
-        type: Array,
-        required: true,
-    },
-    text: {
-        type: String,
-        required: true,
-    }
-})
+interface Props {
+    title: string
+    count: number
+    tasksList: TodoItem[]
+    text: string
+    error: string | null
+}
 
-const emit = defineEmits(['toggleTaskCompletion', 'removeTodo'])
+defineProps<Props>()
 
-const toggleTaskCompletion = (todo) => {
+const emit = defineEmits<{
+    (e: 'toggleTaskCompletion', todo: TodoItem): void
+    (e: 'removeTodo', todo: TodoItem): void
+}>()
+
+const toggleTaskCompletion = (todo: TodoItem) => {
     emit('toggleTaskCompletion', todo)
 }
-const removeTodo = (todo) => {
+const removeTodo = (todo: TodoItem) => {
     emit('removeTodo', todo)
 }
 </script>
