@@ -8,95 +8,46 @@
             title="Tasks to do"
             text="There are no tasks"
             class="tasks"
+            :error="error"
             :count="countTodos"
             :tasksList="tasksToDo"
-            @toggleTaskCompletion="toggleTaskCompletion"
-            @removeTodo="removeTodo"
+            @toggleTaskCompletion="TodoStore.toggleTaskCompletion"
+            @removeTodo="TodoStore.removeTodo"
         />
         <TodoList 
             title="Done"
             text="There are no completed tasks"
             class="tasks-done"
+            :error="error"
             :count="countDoneTodos"
             :tasksList="tasksDone"
-            @toggleTaskCompletion="toggleTaskCompletion"
-            @removeTodo="removeTodo"
+            @toggleTaskCompletion="TodoStore.toggleTaskCompletion"
+            @removeTodo="TodoStore.removeTodo"
         />
     </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import FormAddTodo from '@/components/FormAddTodo.vue'
 import TodoList from '@/components/TodoList.vue'
-import { ref, computed } from 'vue'
+import { useTodoStore } from '@/store/TodoStore'
+import { storeToRefs } from 'pinia'
+import { useAddTodo } from '@/composible/useAddTodo.js'
+import { onMounted } from 'vue'
 
-let id = 0
-const todos = ref([
-{
-    "userId": 1,
-    "id": id++,
-    "title": "delectus aut autem",
-    "completed": false
-  },
-  {
-    "userId": 1,
-    "id": id++,
-    "title": "quis ut nam facilis et officia qui",
-    "completed": false
-  },
-  {
-    "userId": 1,
-    "id": id++,
-    "title": "fugiat veniam minus",
-    "completed": false
-  },
-  {
-    "userId": 1,
-    "id": id++,
-    "title": "et porro tempora",
-    "completed": false
-  },
-  {
-    "userId": 1,
-    "id": id++,
-    "title": "laboriosam mollitia et enim quasi adipisci quia provident illum",
-    "completed": false
-  },
-  {
-    "userId": 1,
-    "id": id++,
-    "title": "qui ullam ratione quibusdam voluptatem quia omnis",
-    "completed": false
-  }
-])
+const TodoStore = useTodoStore()
 
-const newTodo = ref('')
+const {
+    newTodo,
+    countTodos, countDoneTodos,
+    tasksToDo, tasksDone, error
+} = storeToRefs(TodoStore)
 
-function addTodo() {
-    if (newTodo.value.trim() !== '') {
-        todos.value.push({"userId": 1, "id": id++, "title": newTodo.value, "completed": false})
-    }
-    newTodo.value = ''
-}
+const { addTodo } = useAddTodo()
 
-function removeTodo(todo) {
-    todos.value = todos.value.filter((t) => t !== todo)
-}
-
-const tasksToDo = computed(() => {
-    return todos.value.filter(todo => !todo.completed)
+onMounted(() => {
+    TodoStore.fetchTodos()
 })
-
-const tasksDone = computed(() => {
-    return todos.value.filter(todo => todo.completed)
-})
-
-function toggleTaskCompletion(todo) {
-    todo.completed = !todo.completed
-}
-
-const countTodos = computed(() => tasksToDo.value.length)
-const countDoneTodos = computed(() => tasksDone.value.length)
 </script>
 
 <style lang="scss" scoped>

@@ -9,23 +9,26 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import SvgChecked from '@/components/SvgChecked.vue'
 import SvgBacket from '@/components/SvgBacket.vue'
+import { TodoItem } from "@/store/TodoStore"
 
-defineProps({
-    todo: {
-        type: Object,
-        required: true,
-    }
-})
+interface Props {
+    todo: TodoItem
+}
 
-const emit = defineEmits(['toggleTaskCompletion', 'removeTodo'])
+defineProps<Props>()
 
-const toggleTaskCompletion = (todo) => {
+const emit = defineEmits<{
+    (e: 'toggleTaskCompletion', todo: TodoItem): void
+    (e: 'removeTodo', todo: TodoItem): void
+}>()
+
+const toggleTaskCompletion = (todo: TodoItem) => {
     emit('toggleTaskCompletion', todo)
 }
-const removeTodo = (todo) => {
+const removeTodo = (todo: TodoItem) => {
     emit('removeTodo', todo)
 }
 </script>
