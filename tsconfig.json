@@ -8,25 +8,15 @@
         "sourceMap": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
-        "lib": [
-            "esnext",
-            "dom"
-        ],
-        "types": [
-            "webpack-env"
-        ],
+        "lib": ["esnext", "dom"],
+        "types": ["webpack-env"],
         "baseUrl": ".",
         "paths": {
-            "@/*": [
-                "src/*"
-            ]
+            "@/*": ["src/*"]
         }
     },
     "vueCompilerOptions": {
         "experimentalDecorators": true
     },
-    "include": [
-        "src/**/*",
-        "src/**/*.vue"
-    ]
+    "include": ["src/**/*", "src/**/*.vue"]
 }
