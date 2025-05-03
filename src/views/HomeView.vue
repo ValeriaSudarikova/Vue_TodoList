@@ -39,11 +39,7 @@ const { countTodos, countDoneTodos, tasksToDo, tasksDone, error } = storeToRefs(
 const { newTodo, addTodo } = useAddTodo()
 
 onMounted( async () => {
-    try {
-        await todoStore.fetchTodos()
-    } catch(e: unknown) {
-        console.log(e);
-    }
+    todoStore.fetchTodos()
 })
 </script>
 
