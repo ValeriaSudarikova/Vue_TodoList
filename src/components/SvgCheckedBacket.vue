@@ -6,13 +6,20 @@
         <button @click="removeTodo(todo)" class="task-item-btn-backet">
             <SvgBacket />
         </button>
+        <button v-if="!todo.completed" @click="openModal(todo.id)" class="task-item-btn-completed">
+            Completed
+        </button>
     </div>
+    <ModalWindow v-if="todoStore.isOpenModal" :todo="todo"/>
 </template>
 
 <script setup lang="ts">
 import SvgChecked from '@/components/SvgChecked.vue'
 import SvgBacket from '@/components/SvgBacket.vue'
-import { TodoItem } from '@/store/TodoStore'
+import ModalWindow from '@/components/ModalWindow.vue';
+import { TodoItem, useTodoStore } from '@/store/TodoStore'
+
+const todoStore = useTodoStore()
 
 interface Props {
     todo: TodoItem
@@ -30,6 +37,10 @@ const toggleTaskCompletion = (todo: TodoItem) => {
 }
 const removeTodo = (todo: TodoItem) => {
     emit('removeTodo', todo)
+}
+
+const openModal = (todoId: number) => {
+    todoStore.openModal(todoId)
 }
 </script>
 
@@ -60,6 +71,21 @@ const removeTodo = (todo: TodoItem) => {
             svg path {
                 fill: #3e1671;
             }
+        }
+    }
+
+    &-completed {
+        padding: 8px;
+        background-color: transparent;
+        color: #9e78cf;
+        font-size: 14px;
+        border: 2px solid #9e78cf;
+        border-radius: 10px;
+        margin-left: 20px;
+        transition: all .3s;
+
+        &:hover {
+            transform: scale(1.1);
         }
     }
 }
