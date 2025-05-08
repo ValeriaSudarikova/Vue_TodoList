@@ -52,6 +52,31 @@ export const useTodoStore = defineStore('todo', () => {
     const countTodos = computed<number>(() => tasksToDo.value.length)
     const countDoneTodos = computed<number>(() => tasksDone.value.length)
 
+    const isOpenModal = ref<boolean>(false)
+    const originalTodoId = ref<number | null>(null)
+    const modifiedTodoText = ref<string>('')
+
+    const openModal = (todoId: number) => {
+        isOpenModal.value = true
+        originalTodoId.value = todoId
+        const todo = todos.value.find(todo => todo.id === todoId)
+        if (todo) {
+            modifiedTodoText.value = todo.title
+        }
+    }
+    const closeModal = () => {
+        isOpenModal.value = false
+        originalTodoId.value = null
+        modifiedTodoText.value = ''
+    }
+    const saveNewTodoText = () => {
+        const todo = todos.value.find(todo => todo.id === originalTodoId.value)
+        if(todo) {
+            todo.title = modifiedTodoText.value
+        }
+        closeModal()
+    }
+
     return {
         todos,
         removeTodo,
@@ -62,6 +87,11 @@ export const useTodoStore = defineStore('todo', () => {
         countDoneTodos,
         fetchTodos,
         error,
-        fetchTodosLoading
+        fetchTodosLoading,
+        openModal,
+        closeModal,
+        isOpenModal,
+        modifiedTodoText,
+        saveNewTodoText
     }
 })

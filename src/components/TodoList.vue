@@ -89,8 +89,8 @@ const removeTodo = (todo: TodoItem) => {
     .tasks-list {
         
         .task-item {
-            color: #78cfb0;
             margin-bottom: 16px;
+            color: #78cfb0;
             text-decoration: line-through;
         }
     }
