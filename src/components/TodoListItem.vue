@@ -34,11 +34,11 @@ const removeTodo = (todo: TodoItem) => {
 
 <style lang="scss" scoped>
 .task-item {
-    padding: 28px 20px;
-    background-color: #15101c;
-    border-radius: 10px;
-    color: #9e78cf;
     width: 100%;
+    padding: 28px 20px;
+    border-radius: 10px;
+    background-color: #15101c;
+    color: #9e78cf;
     display: flex;
     justify-content: space-between;
     align-items: center;

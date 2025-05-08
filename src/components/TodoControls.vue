@@ -1,12 +1,12 @@
 <template>
     <div class="task-item-btn">
-        <button @click="toggleTaskCompletion(todo)" class="task-item-btn-checked">
+        <button class="task-item-btn-checked" @click="toggleTaskCompletion(todo)">
             <SvgChecked />
         </button>
-        <button @click="removeTodo(todo)" class="task-item-btn-backet">
+        <button class="task-item-btn-backet" @click="removeTodo(todo)">
             <SvgBacket />
         </button>
-        <button v-if="!todo.completed" @click="openModal(todo.id)" class="task-item-btn-completed">
+        <button v-if="!todo.completed" class="task-item-btn-completed" @click="openModal(todo.id)">
             Completed
         </button>
     </div>
@@ -46,10 +46,10 @@ const openModal = (todoId: number) => {
 
 <style lang="scss" scoped>
 .task-item-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     margin-left: 14px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
 
     &-checked {
         padding: 8px;
@@ -61,9 +61,9 @@ const openModal = (todoId: number) => {
 
     &-checked,
     &-backet {
-        transition: all 0.3s;
         border-radius: 6px;
         background-color: transparent;
+        transition: all 0.3s;
 
         &:hover {
             background-color: rgba(158, 120, 207, 0.1);
@@ -76,12 +76,12 @@ const openModal = (todoId: number) => {
 
     &-completed {
         padding: 8px;
+        margin-left: 20px;
+        border: 2px solid #9e78cf;
+        border-radius: 10px;
         background-color: transparent;
         color: #9e78cf;
         font-size: 14px;
-        border: 2px solid #9e78cf;
-        border-radius: 10px;
-        margin-left: 20px;
         transition: all .3s;
 
         &:hover {
